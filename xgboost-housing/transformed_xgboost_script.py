@@ -2,10 +2,10 @@ import json
 import numpy as np
 import xgboost as xgb
 
-with open('train_untransformed.json', 'r') as f:
+with open('train_transformed.json', 'r') as f:
     train = json.load(f)
 
-with open('test_untransformed.json', 'r') as f:
+with open('test_transformed.json', 'r') as f:
     test = json.load(f)
 
 train_x = np.array(train['x'])
@@ -20,7 +20,7 @@ num_rounds = 100
 
 params = {
     'objective': 'reg:squarederror',
-    'eval_metric': 'mape',
+    'eval_metric': 'mae',
     'booster': 'gbtree',
     'eta': 0.1,
     'max_depth': 5
@@ -31,5 +31,5 @@ pred = bst.predict(dtest)
 
 results = {"gt":test_y.tolist(), "pred": pred.tolist()}
 
-with open('xgboost_untransformed_inference_results.json', 'w') as f:
+with open('xgboost_transformed_inference_results.json', 'w') as f:
     test = json.dump(results, f)
