@@ -5,8 +5,6 @@ import os
 import openai
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
-test_year = "2022"
-
 ###################### FILL IN THE RIGHT VALUES HERE  ######################
 
 # input file - SPECIFY
@@ -76,19 +74,11 @@ def query_model(row, window_start):
     if debug_mode:
         print(input_message)
         print(task_message)
-        print(finetuned_prediction, true_value)
+    print(country_name, finetuned_prediction, true_value)
 
     return country_name, finetuned_prediction, true_value
 
-    # # Append the input and agent messages to the prompts list
-    # return {
-    #     "messages": [
-    #         {"role": "system", "content": system_message},
-    #         {"role": "user", "content": input_message + task_message},
-    #         {"role": "assistant", "content": agent_message}
-    #     ]
-    # }
-
+# loop through all countries and return results
 prediction_idx = 0
 for row in data:
     if prediction_idx < PREDICTION_LIMIT:
