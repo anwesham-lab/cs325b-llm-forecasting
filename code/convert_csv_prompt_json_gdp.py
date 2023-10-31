@@ -1,11 +1,15 @@
 import csv
 import json
 
-# Read the CSV file
+# output files - SPECIFY
+train_json_filename = "../data/gdp/nominal_train_gdp.jsonl"
+test_json_filename = "../data/gdp/nominal_test_gdp.jsonl"
+
+# Read the CSV file - SPECIFY
 with open('../data/gdp/cleaned_gdp_df_countries.csv', newline='') as csvfile:
     data = list(csv.DictReader(csvfile))
 
-# Define the system message
+# Define the system message - SPECIFY
 system_message = "You are a prediction agent predicting the GDP for a country in a given year when provided an input detailing the country's GDP for the last 10 years."
 
 
@@ -22,15 +26,17 @@ test_prompts_json = []
 ## helper function to create train and test windows
 ##
 
-def generate_message(row, windows):
+def generate_message(row, window_start):
+    # loop through each country
     country_name = row['country']
+    
     # Create sliding window prompts
-    for i in windows:
-        input_message = f"The country of interest is: {country_name} and GDP (in Billions of US dollars at present day prices) from previous years is {i}: {row[str(i)]}, {i+1}: {row[str(i+1)]}, {i+2}: {row[str(i+2)]}, {i+3}: {row[str(i+3)]}, {i+4}: {row[str(i+4)]}, {i+5}: {row[str(i+5)]}, {i+6}: {row[str(i+6)]}, {i+7}: {row[str(i+7)]}, {i+8}: {row[str(i+8)]}, {i+9}: {row[str(i+9)]}"
-        prediction_year = i + predict_after_years
-        task_message = f". Predict the GDP (in Billions of US dollars at present day prices) for {country_name} in {prediction_year}: "
-        prediction_amount = row[str(i+predict_after_years)]
-        agent_message = f"{prediction_amount}"
+    i = window_start
+    input_message = f"The country of interest is: {country_name} and GDP (in Billions of US dollars at present day prices) from previous years is {i}: {row[str(i)]}, {i+1}: {row[str(i+1)]}, {i+2}: {row[str(i+2)]}, {i+3}: {row[str(i+3)]}, {i+4}: {row[str(i+4)]}, {i+5}: {row[str(i+5)]}, {i+6}: {row[str(i+6)]}, {i+7}: {row[str(i+7)]}, {i+8}: {row[str(i+8)]}, {i+9}: {row[str(i+9)]}"
+    prediction_year = i + predict_after_years
+    task_message = f". Predict the GDP (in Billions of US dollars at present day prices) for {country_name} in {prediction_year}: "
+    prediction_amount = row[str(i+predict_after_years)]
+    agent_message = f"{prediction_amount}"
 
         # Append the input and agent messages to the prompts list
     return {
@@ -46,14 +52,14 @@ def generate_message(row, windows):
 ##        
 
 # Loop through the data
-for row in data:
-    # Extract relevant data
-    train_prompts_json.append(generate_message(row, train_windows_start))
+for w in train_windows_start:
+    for row in data:
+        # Extract relevant data for that country and start year combination
+        train_prompts_json.append(generate_message(row, w))
 len_content = len(train_prompts_json)
 
 # Save the prompts as a JSON file    
-json_filename = "../data/gdp/nominal_train_gdp.jsonl"
-with open(json_filename, 'w') as f:
+with open(train_json_filename, 'w') as f:
     for entry in train_prompts_json:
         f.write(json.dumps(entry) + '\n')
 
@@ -62,13 +68,13 @@ with open(json_filename, 'w') as f:
 ##        
 
 # Loop through the data
-for row in data:
-    # Extract relevant data
-    test_prompts_json.append(generate_message(row, test_windows_start))
+for w in test_windows_start:
+    for row in data:
+        # Extract relevant data
+        test_prompts_json.append(generate_message(row, w))
 len_content = len(test_prompts_json)
 
 # Save the prompts as a JSON file    
-json_filename = "../data/gdp/nominal_test_gdp.jsonl"
-with open(json_filename, 'w') as f:
+with open(test_json_filename, 'w') as f:
     for entry in test_prompts_json:
         f.write(json.dumps(entry) + '\n')
