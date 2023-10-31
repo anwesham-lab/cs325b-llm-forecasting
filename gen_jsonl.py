@@ -49,7 +49,7 @@ def process_csv(filename, n, global_start_year, global_end_year, features):
     return subset_df
 
 def generate_datasets(df, train_split, features, train_system_content, test_system_content, train_windows, test_window):
-    n_train_rows = train_split*df.shape[0]
+    n_train_rows = train_split*df.shape[0]/len(train_windows)
     train=[]
     test=[]
     counter = 0
