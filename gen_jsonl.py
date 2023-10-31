@@ -48,8 +48,7 @@ def process_csv(filename, n, global_start_year, global_end_year, features):
     subset_df = filtered_df.sample(n=n)
     return subset_df
 
-def generate_datasets(df, train_split, features, train_system_content, test_system_content, train_windows, test_window):
-    n_train_rows = train_split*df.shape[0]/len(train_windows)
+def generate_datasets(df, n_train_rows, features, train_system_content, test_system_content, train_windows, test_window):
     train=[]
     test=[]
     counter = 0
@@ -82,8 +81,8 @@ def main():
     global_end_year = 
     # column names/metadata to include as a list of strings
     features = ['','']
-    # proportion of split that is training data (Float from 0 to 1)
-    train_split = 
+    # number of rows for training (note that training samples will = number of training windows * number of rows for training)
+    n_train_rows = 
     # content for system role for training (string)
     train_system_content = ""
     # content for system role for test (string)
@@ -97,7 +96,7 @@ def main():
     # filename to write the test dataset to
     test_filename = ".jsonl"
     df = process_csv(filename, n, global_start_year, global_end_year, features)
-    train_data, test_data = generate_datasets(df, train_split, features, train_system_content, test_system_content, train_windows, test_window)
+    train_data, test_data = generate_datasets(df, n_train_rows, features, train_system_content, test_system_content, train_windows, test_window)
     generate_jsonl(train_filename, train_data, test_filename, test_data)
 
 if __name__=="__main__":
