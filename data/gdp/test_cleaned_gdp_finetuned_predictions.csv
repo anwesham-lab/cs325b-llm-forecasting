@@ -1,0 +1,71 @@
+,country,predicted_gdp,observed_gdp
+0,Albania,20.587,19.083
+1,Antigua and Barbuda,1.7,1.758
+2,"Bahamas, The",11.494,12.897
+3,Bahrain,42.881,44.383
+4,Bangladesh,458.198,460.201
+5,Belgium,653.38,579.059
+6,Belize,2.662,2.985
+7,Benin,19.168,17.439
+8,Bhutan,2.648,2.653
+9,Brazil,1639.813,1920.023
+10,Bulgaria,89.235,89.115
+11,Cameroon,49.494,44.322
+12,Canada,2147.775,2137.939
+13,Chad,12.421,12.096
+14,Chile,324.345,300.729
+15,"China, People's Republic of",18550.968,17886.331
+16,Comoros,1.367,1.237
+17,Côte d'Ivoire,79.22,70.18
+18,Dominican Republic,107.449,113.873
+19,El Salvador,31.617,32.489
+20,Equatorial Guinea,15.392,11.767
+21,Eswatini,4.917,4.837
+22,Ethiopia,109.37,120.369
+23,Fiji,4.139,4.98
+24,Gabon,23.143,21.117
+25,"Gambia, The",2.188,2.161
+26,Greece,232.321,219.238
+27,Grenada,1.213,1.216
+28,Guatemala,94.725,95.004
+29,Guinea,18.066,20.304
+30,Guinea-Bissau,1.847,1.718
+31,Haiti,18.777,20.535
+32,Hong Kong SAR,392.069,359.839
+33,Iceland,28.393,28.065
+34,Indonesia,1231.926,1318.806
+35,Ireland,586.677,533.559
+36,Italy,2281.67,2012.014
+37,Kenya,115.101,113.701
+38,Lao P.D.R.,18.919,15.304
+39,Lesotho,2.818,2.463
+40,Maldives,6.027,6.238
+41,Mauritius,12.978,12.898
+42,Mongolia,17.026,17.146
+43,Mozambique,19.001,19.157
+44,Netherlands,1121.739,1010.193
+45,Nicaragua,15.38,15.671
+46,Panama,75.903,76.523
+47,Papua New Guinea,25.691,31.533
+48,Paraguay,43.335,41.722
+49,Peru,231.456,244.594
+50,Philippines,433.015,404.284
+51,Qatar,195.04,236.415
+52,Romania,315.845,301.273
+53,Rwanda,11.932,13.309
+54,Saint Lucia,1.992,2.297
+55,Saint Vincent and the Grenadines,0.882,0.947
+56,Saudi Arabia,960.501,1108.149
+57,Seychelles,1.641,1.977
+58,Sierra Leone,4.416,3.987
+59,Singapore,445.412,466.789
+60,Solomon Islands,1.672,1.591
+61,Suriname,3.392,3.51
+62,Sweden,682.61,591.189
+63,Togo,8.999,8.144
+64,Trinidad and Tobago,25.679,30.053
+65,Tunisia,49.625,46.361
+66,"Türkiye, Republic of",892.881,905.841
+67,United Arab Emirates,457.836,507.064
+68,Uruguay,64.778,71.177
+69,Vanuatu,0.924,1.073
