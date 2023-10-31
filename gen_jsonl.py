@@ -35,7 +35,7 @@ def generate_test_message(row, features, system_content, window):
     return test_message
 
 def contains_nan(row, start_year, end_year, features):
-    years = [str(year) for year in range(start_year, end_year + 2)]  
+    years = [str(year) for year in range(start_year, end_year + 1)]  
     for col in years + features:
         if pd.isna(row[col]):
             return True
