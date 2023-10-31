@@ -2,7 +2,7 @@ import csv
 import json
 
 # Read the CSV file
-with open('../data/gdp/cleaned/cleaned_gdp_df_countries.csv', newline='') as csvfile:
+with open('../data/gdp/cleaned_gdp_df_countries.csv', newline='') as csvfile:
     data = list(csv.DictReader(csvfile))
 
 # Define the system message
@@ -11,7 +11,7 @@ system_message = "You are a prediction agent predicting the GDP for a country in
 
 # Train / test splits
 train_windows_start = [2001, 2006, 2011]
-test windows_start = [2012]
+test_windows_start = [2012]
 predict_after_years = 10
 
 # Initialize a list to store the prompts
