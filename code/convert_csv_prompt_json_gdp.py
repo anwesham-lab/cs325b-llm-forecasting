@@ -1,7 +1,6 @@
 import csv
 import json
 
-
 ###################### FILL IN THE RIGHT VALUES HERE  ######################
 
 # output files - SPECIFY
@@ -24,7 +23,7 @@ predict_after_years = 10
 
 ############################################################################
 
-# Read the CSV file - SPECIFY
+# Read the CSV file 
 with open(input_csv_filename, newline='') as csvfile:
     data = list(csv.DictReader(csvfile))
 
