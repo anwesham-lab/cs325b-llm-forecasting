@@ -117,7 +117,7 @@ def query_model_gdp_growth(row, window_start, prep_msg=growth_prep_msg):
 
     # GDP growth prompts
     input_message = f"The country of interest is: {country_name} and growth rates in percent of real GDP seen in previous years is {i}: {row[str(i)]}, {i+1}: {row[str(i+1)]}, {i+2}: {row[str(i+2)]}, {i+3}: {row[str(i+3)]}, {i+4}: {row[str(i+4)]}, {i+5}: {row[str(i+5)]}, {i+6}: {row[str(i+6)]}, {i+7}: {row[str(i+7)]}, {i+8}: {row[str(i+8)]}, {i+9}: {row[str(i+9)]}"
-    task_message = f". Predict the GDP growth rate (in percent) for {country_name} in {prediction_year}: "
+    task_message = f"Predict the GDP growth rate (in percent) for {country_name} in {prediction_year}: "
 
     # what the LLM should return
     true_value = float(row[str(i+predict_after_years)])
