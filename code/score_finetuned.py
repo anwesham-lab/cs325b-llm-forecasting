@@ -45,7 +45,7 @@ growth_prep_msg = "You are a prediction agent predicting the GDP growth rates fo
 prep_msg = growth_prep_msg
 
 # limit how many predictions to make
-PREDICTION_LIMIT = 5 # if you want to just test the code, set to 5
+PREDICTION_LIMIT = 200 # if you want to just test the code, set to 5
 debug_mode = False
 
 if PREDICTION_LIMIT < 50:
@@ -177,4 +177,4 @@ results_df = pd.DataFrame()
 results_df['country'] = countries
 results_df['predicted_gdp'] = finetuned_predictions
 results_df['observed_gdp'] = true_values
-results_df.to_csv(output_csv_filename)
+results_df.to_csv(output_csv_filename, index=False)
