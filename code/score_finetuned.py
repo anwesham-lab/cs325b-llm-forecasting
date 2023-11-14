@@ -22,12 +22,21 @@ predict_after_years = 10
 '''
 # if working with GDP growth
 '''
-input_csv_filename = "../data/gdp/rounded_cleaned_gdp_growth_df.csv" #'../data/gdp/cleaned_gdp_df_countries.csv'
-output_csv_filename = "../data/gdp/test_cleaned_gdp_growth_finetuned_predictions.csv"
 
 # Train / test splits
-test_windows_start = 2010
-predict_after_years = 12
+prediction_horizon = 1 #3
+if prediction_horizon == 3:
+    test_windows_start = 2010
+    predict_after_years = 12
+elif prediction_horizon == 1:
+    test_windows_start = 2012 #2010
+    predict_after_years = 10 #12
+else: 
+    print("bad parameters")
+
+input_csv_filename = "../data/gdp/rounded_cleaned_gdp_growth_df.csv" #'../data/gdp/cleaned_gdp_df_countries.csv'
+output_csv_filename = "../data/gdp/test_cleaned_gdp_growth_finetuned_predictions_" + str(prediction_horizon) + "yr.csv"
+
 
 # system message to "prepare" the llm
 nom_prep_msg = "You are a prediction agent predicting the GDP for a country in a given year when provided an input detailing the country's GDP for the last 10 years."
@@ -35,10 +44,8 @@ norm_prep_msg = "You are a prediction agent predicting the GDP for a country in 
 growth_prep_msg = "You are a prediction agent predicting the GDP growth rates for a country in a future year when provided an input detailing the country's growth rate in real GDP for the last 10 years."
 prep_msg = growth_prep_msg
 
-
-
 # limit how many predictions to make
-PREDICTION_LIMIT = 400 # if you want to just test the code, set to 5
+PREDICTION_LIMIT = 5 # if you want to just test the code, set to 5
 debug_mode = False
 
 if PREDICTION_LIMIT < 50:
@@ -81,13 +88,25 @@ def query_model_gdp(row, window_start, prep_msg=nom_prep_msg):
     true_value = float(row[str(i+predict_after_years)])
 
     # query the model
-    completion = openai.ChatCompletion.create(
-      model="ft:gpt-3.5-turbo-0613:personal::8Fmg2rfz",
-      messages=[
-        {"role": "system", "content": system_message},
-        {"role": "user", "content": input_message + task_message}
-      ]
-    )
+    if prediction_horizon == 3:
+        completion = openai.ChatCompletion.create(
+                model="ft:gpt-3.5-turbo-0613:personal::8Fmg2rfz",
+                messages=[
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": input_message + task_message}
+                ]
+        )
+    elif prediction_horizon == 1:
+        completion = openai.ChatCompletion.create(
+                model="ft:gpt-3.5-turbo-0613:personal::8KcBXc2t",
+                messages=[
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": input_message + task_message}
+                ]
+        )
+    else:
+        print("Check parameters")
+
     finetuned_prediction_dict = dict()
     finetuned_prediction_dict = completion.choices[0].message
     finetuned_prediction = float(finetuned_prediction_dict['content'])

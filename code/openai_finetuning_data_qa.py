@@ -3,7 +3,7 @@ import tiktoken # for token counting
 import numpy as np
 from collections import defaultdict
 
-data_path = "../data/gdp/train_gdp_growth_3yr_.jsonl"
+data_path = "../data/gdp/train_gdp_growth_1yr.jsonl"
 # "../data/gdp/normalized_train_gdp.jsonl"
 #"../data/gdp/nominal_train_gdp.jsonl"
 
