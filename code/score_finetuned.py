@@ -38,8 +38,8 @@ prep_msg = growth_prep_msg
 
 
 # limit how many predictions to make
-PREDICTION_LIMIT = 10 # if you want to just test the code, set to 5
-debug_mode = True
+PREDICTION_LIMIT = 400 # if you want to just test the code, set to 5
+debug_mode = False
 
 if PREDICTION_LIMIT < 50:
     debug_mode = True
