@@ -8,11 +8,15 @@ openai.api_key = os.environ["OPENAI_API_KEY"]
 ###################### FILL IN THE RIGHT VALUES HERE  ######################
 
 # input file - SPECIFY
+prediction_mode_string = "_finetuned_"
+ZERO_SHOT = True
+if ZERO_SHOT:
+    zero_shot_string = "_zero_shot_"
 
 '''
 # if working with GDP
 input_csv_filename = "../data/gdp/test_cleaned_gdp.csv" #'../data/gdp/cleaned_gdp_df_countries.csv'
-# output_csv_filename = "../data/gdp/test_cleaned_gdp_finetuned_predictions.csv"
+# output_csv_filename = "../data/gdp/test_cleaned_gdp" + prediction_mode_string + "predictions.csv"
 
 # Train / test splits
 test_windows_start = 2012
@@ -35,7 +39,7 @@ else:
     print("bad parameters")
 
 input_csv_filename = "../data/gdp/rounded_cleaned_gdp_growth_df.csv" #'../data/gdp/cleaned_gdp_df_countries.csv'
-output_csv_filename = "../data/gdp/test_cleaned_gdp_growth_finetuned_predictions_" + str(prediction_horizon) + "yr.csv"
+output_csv_filename = "../data/gdp/test_cleaned_gdp_growth" + prediction_mode_string + "predictions_" + str(prediction_horizon) + "yr.csv"
 
 
 # system message to "prepare" the llm
