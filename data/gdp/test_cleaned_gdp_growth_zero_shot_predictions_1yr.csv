@@ -1,0 +1,183 @@
+country,predicted_gdp,observed_gdp
+Albania,6.5,4.8
+Algeria,2.2,3.2
+Angola,3.1,3.0
+Antigua and Barbuda,7.4,8.5
+Argentina,5.3,5.0
+Armenia,6.3,12.6
+Aruba,6.4,10.5
+Australia,3.7,3.7
+Austria,5.0,4.8
+Azerbaijan,6.0,4.6
+"Bahamas, The",5.2,14.4
+Bahrain,2.2,4.9
+Bangladesh,7.2,7.1
+Barbados,3.3,9.8
+Belarus,2.1,-3.7
+Belgium,6.0,3.2
+Belize,11.3,12.7
+Benin,7.1,6.3
+Bhutan,1.3,4.8
+Bolivia,7.2,3.5
+Bosnia and Herzegovina,4.6,4.1
+Botswana,3.7,5.8
+Brazil,5.0,2.9
+Brunei Darussalam,-2.5,-1.6
+Bulgaria,6.2,3.4
+Burkina Faso,7.2,1.5
+Burundi,5.1,1.8
+Cabo Verde,8.6,17.0
+Cambodia,6.2,5.2
+Cameroon,4.0,3.8
+Canada,6.1,3.4
+Central African Republic,1.0,0.5
+Chad,-0.3,3.4
+Chile,6.0,2.4
+"China, People's Republic of",5.4,3.0
+Colombia,7.7,7.3
+Comoros,2.1,2.6
+"Congo, Dem. Rep. of the",7.0,8.9
+"Congo, Republic of ",1.2,1.7
+Costa Rica,3.3,4.3
+Croatia,6.6,6.2
+Cyprus,6.3,5.6
+Czech Republic,7.0,2.3
+Côte d'Ivoire,7.1,6.7
+Denmark,2.0,2.7
+Djibouti,6.1,3.2
+Dominica,0.5,5.7
+Dominican Republic,6.1,4.9
+Ecuador,5.0,2.9
+Egypt,5.0,6.7
+El Salvador,9.0,2.6
+Equatorial Guinea,1.6,3.2
+Estonia,6.2,-0.5
+Eswatini,5.7,3.6
+Ethiopia,6.6,6.4
+Fiji,3.5,20.0
+Finland,3.0,1.6
+France,5.2,2.5
+Gabon,2.1,3.0
+"Gambia, The",6.4,4.9
+Georgia,8.9,10.1
+Germany,3.1,1.8
+Ghana,6.6,3.1
+Greece,7.1,5.9
+Grenada,3.8,6.4
+Guatemala,6.3,4.1
+Guinea,5.6,4.3
+Guinea-Bissau,5.0,4.2
+Guyana,16.9,62.3
+Haiti,-2.5,-1.7
+Honduras,6.0,4.0
+Hong Kong SAR,7.1,-3.5
+Hungary,6.1,4.6
+Iceland,5.2,7.2
+India,8.5,7.2
+Indonesia,5.3,5.3
+Iran,4.6,3.8
+Iraq,3.3,7.0
+Ireland,11.4,9.4
+Israel,6.9,6.5
+Italy,6.0,3.7
+Jamaica,6.7,5.2
+Japan,3.2,1.0
+Jordan,3.1,2.5
+Kazakhstan,3.8,3.3
+Kenya,7.1,4.8
+Kiribati,2.6,1.2
+"Korea, Republic of",4.0,2.6
+Kuwait,3.4,8.9
+Kyrgyz Republic,5.3,6.3
+Lao P.D.R.,4.1,2.3
+Latvia,6.0,2.8
+Lebanon,-5.1,0.0
+Lesotho,4.5,2.1
+Libya,4.7,-9.6
+Lithuania,6.0,1.9
+Luxembourg,7.1,1.4
+Madagascar,5.1,4.0
+Malawi,6.0,0.8
+Malaysia,5.0,8.7
+Maldives,23.1,13.9
+Mali,5.0,3.7
+Malta,9.2,6.9
+Marshall Islands,2.8,-4.5
+Mauritania,4.4,6.5
+Mauritius,7.5,8.7
+Mexico,4.1,3.9
+"Micronesia, Fed. States of",-1.7,-0.6
+Moldova,4.6,-5.0
+Mongolia,6.4,5.0
+Morocco,6.3,1.3
+Mozambique,5.1,4.2
+Myanmar,-7.2,2.0
+Namibia,2.7,4.6
+Nepal,5.5,5.6
+Netherlands,5.2,4.3
+New Zealand,4.1,2.7
+Nicaragua,4.5,3.8
+Niger,4.7,11.9
+Nigeria,6.0,3.3
+North Macedonia ,7.8,2.1
+Norway,3.2,3.3
+Oman,2.0,4.3
+Pakistan,4.7,6.1
+Panama,9.4,10.8
+Papua New Guinea,-1.1,4.3
+Paraguay,4.2,0.1
+Peru,7.0,2.7
+Philippines,7.3,7.6
+Poland,6.3,5.1
+Portugal,6.0,6.7
+Puerto Rico,2.2,2.0
+Qatar,3.7,4.9
+Romania,5.3,4.7
+Russian Federation,3.1,-2.1
+Rwanda,7.9,8.2
+Saint Kitts and Nevis,4.3,8.8
+Saint Lucia,6.9,15.7
+Saint Vincent and the Grenadines,-2.8,5.5
+Samoa,6.6,-5.3
+San Marino,2.8,5.0
+Saudi Arabia,4.3,8.7
+Senegal,5.4,4.0
+Serbia,6.9,2.3
+Seychelles,5.0,8.9
+Sierra Leone,5.7,4.0
+Singapore,6.8,3.6
+Slovak Republic,6.0,1.7
+Slovenia,7.4,2.5
+Solomon Islands,1.4,-4.1
+South Africa,2.1,1.9
+Spain,7.1,5.8
+Sri Lanka,5.0,-7.8
+Sudan,0.3,-2.5
+Suriname,-1.2,1.0
+Sweden,4.6,2.8
+Switzerland,4.4,2.7
+São Tomé and Príncipe,2.9,0.1
+Taiwan Province of China,6.2,2.4
+Tajikistan,9.5,8.0
+Tanzania,6.0,4.7
+Thailand,4.6,2.6
+Togo,6.3,5.8
+Tonga,-2.6,-2.0
+Trinidad and Tobago,-0.2,1.5
+Tunisia,5.4,2.5
+Turkmenistan,5.4,1.6
+"Türkiye, Republic of",4.4,5.5
+Uganda,6.3,6.4
+Ukraine,5.4,-29.1
+United Arab Emirates,3.9,7.9
+United Kingdom,6.3,4.1
+United States,4.5,2.1
+Uruguay,5.2,4.9
+Uzbekistan,7.0,5.7
+Vanuatu,2.5,1.9
+Venezuela,3.8,8.0
+Vietnam,5.9,8.0
+West Bank and Gaza,4.5,3.9
+Yemen,-5.5,1.5
+Zambia,4.6,4.7
+Zimbabwe,5.1,6.2
