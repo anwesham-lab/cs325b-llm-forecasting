@@ -49,8 +49,8 @@ growth_prep_msg = "You are a prediction agent predicting the GDP growth rates fo
 prep_msg = growth_prep_msg
 
 # limit how many predictions to make
-PREDICTION_LIMIT = 200 # if you want to just test the code, set to 5
-debug_mode = False
+PREDICTION_LIMIT = 10 # if you want to just test the code, set to 5
+debug_mode = True
 
 if PREDICTION_LIMIT < 50:
     debug_mode = True
@@ -94,13 +94,8 @@ def query_model_gdp(row, window_start, prep_msg=nom_prep_msg, zero_shot=False):
     if zero_shot:
         model="gpt-3.5-turbo"
     else:
-        if prediction_horizon == 3:
-            model="ft:gpt-3.5-turbo-0613:personal::8Fmg2rfz"
-        elif prediction_horizon == 1:
-            model="ft:gpt-3.5-turbo-0613:personal::8KcBXc2t"
-        else:
-            print("Check parameters")                
-
+        model="ft:gpt-3.5-turbo-0613:personal::8Fmg2rfz"
+        
     # query the model
     completion = openai.ChatCompletion.create(
             model=model,
@@ -132,9 +127,16 @@ def query_model_gdp_growth(row, window_start, prep_msg=growth_prep_msg, zero_sho
     predictions in % terms on a 3 year horizon
     '''
     country_name = row['country'] # loop through each country
-    model="ft:gpt-3.5-turbo-1106:personal::8IU7aKVL"
+    model=""
     if zero_shot:
         model="gpt-3.5-turbo"
+    else:
+        if prediction_horizon == 3:
+            model="ft:gpt-3.5-turbo-1106:personal::8IU7aKVL"
+        elif prediction_horizon == 1:
+            model="ft:gpt-3.5-turbo-0613:personal::8KcBXc2t"
+        else:
+            print("Check parameters") 
     
     # Create sliding window prompts
     i = window_start
