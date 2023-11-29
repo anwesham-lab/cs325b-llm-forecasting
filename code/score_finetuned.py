@@ -69,7 +69,7 @@ countries = []
 For predicting gdp values directly
 '''
 
-def query_model_gdp(row, window_start, prep_msg=nom_prep_msg):
+def query_model_gdp(row, window_start, prep_msg=nom_prep_msg, zero_shot=False):
     country_name = row['country'] # loop through each country
     
     # Create sliding window prompts
@@ -86,27 +86,26 @@ def query_model_gdp(row, window_start, prep_msg=nom_prep_msg):
 
     # what the LLM should return
     true_value = float(row[str(i+predict_after_years)])
+    model=""
+    if zero_shot:
+        model="gpt-3.5-turbo"
+    else:
+        if prediction_horizon == 3:
+            model="ft:gpt-3.5-turbo-0613:personal::8Fmg2rfz"
+        elif prediction_horizon == 1:
+            model="ft:gpt-3.5-turbo-0613:personal::8KcBXc2t"
+        else:
+            print("Check parameters")                
 
     # query the model
-    if prediction_horizon == 3:
-        completion = openai.ChatCompletion.create(
-                model="ft:gpt-3.5-turbo-0613:personal::8Fmg2rfz",
-                messages=[
-                    {"role": "system", "content": system_message},
-                    {"role": "user", "content": input_message + task_message}
-                ]
-        )
-    elif prediction_horizon == 1:
-        completion = openai.ChatCompletion.create(
-                model="ft:gpt-3.5-turbo-0613:personal::8KcBXc2t",
-                messages=[
-                    {"role": "system", "content": system_message},
-                    {"role": "user", "content": input_message + task_message}
-                ]
-        )
-    else:
-        print("Check parameters")
-
+    completion = openai.ChatCompletion.create(
+            model=model,
+            messages=[
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": input_message + task_message}
+            ]
+    )
+    
     finetuned_prediction_dict = dict()
     finetuned_prediction_dict = completion.choices[0].message
     finetuned_prediction = float(finetuned_prediction_dict['content'])
@@ -123,12 +122,15 @@ def query_model_gdp(row, window_start, prep_msg=nom_prep_msg):
 For predicting GDP growth rates
 '''
 
-def query_model_gdp_growth(row, window_start, prep_msg=growth_prep_msg):
+def query_model_gdp_growth(row, window_start, prep_msg=growth_prep_msg, zero_shot=False):
     '''
     to be used to query a model finetuned to make gdp growth 
     predictions in % terms on a 3 year horizon
     '''
     country_name = row['country'] # loop through each country
+    model="ft:gpt-3.5-turbo-1106:personal::8IU7aKVL"
+    if zero_shot:
+        model="gpt-3.5-turbo"
     
     # Create sliding window prompts
     i = window_start
@@ -143,7 +145,7 @@ def query_model_gdp_growth(row, window_start, prep_msg=growth_prep_msg):
 
     # query the model
     completion = openai.ChatCompletion.create(
-      model="ft:gpt-3.5-turbo-1106:personal::8IU7aKVL",
+      model=model,
       messages=[
         {"role": "system", "content": system_message},
         {"role": "user", "content": input_message + task_message}
