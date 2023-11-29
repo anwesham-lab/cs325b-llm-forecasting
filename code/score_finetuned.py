@@ -49,8 +49,8 @@ growth_prep_msg = "You are a prediction agent predicting the GDP growth rates fo
 prep_msg = growth_prep_msg
 
 # limit how many predictions to make
-PREDICTION_LIMIT = 10 # if you want to just test the code, set to 5
-debug_mode = True
+PREDICTION_LIMIT = 500 # if you want to just test the code, set to 5
+debug_mode = False
 
 if PREDICTION_LIMIT < 50:
     debug_mode = True
@@ -107,7 +107,14 @@ def query_model_gdp(row, window_start, prep_msg=nom_prep_msg, zero_shot=False):
     
     finetuned_prediction_dict = dict()
     finetuned_prediction_dict = completion.choices[0].message
-    finetuned_prediction = float(finetuned_prediction_dict['content'])
+
+    # convert returned message to a float with some error handling 
+    try:
+        float_value_out = float(finetuned_prediction_dict['content'])
+    except ValueError:
+        print(f"Error: Invalid value encountered. Could not convert '{input_str}' to a float.")
+        float_value_out = None  
+    finetuned_prediction = float_value_out
 
     # preview results
     if debug_mode:
@@ -159,7 +166,14 @@ def query_model_gdp_growth(row, window_start, prep_msg=growth_prep_msg, zero_sho
     )
     finetuned_prediction_dict = dict()
     finetuned_prediction_dict = completion.choices[0].message
-    finetuned_prediction = float(finetuned_prediction_dict['content'])
+    
+    # convert returned message to a float with some error handling 
+    try:
+        float_value_out = float(finetuned_prediction_dict['content'])
+    except ValueError:
+        print(f"Error: Invalid value encountered. Could not convert '{input_str}' to a float.")
+        float_value_out = None  
+    finetuned_prediction = float_value_out
 
     # preview results
     if debug_mode:
