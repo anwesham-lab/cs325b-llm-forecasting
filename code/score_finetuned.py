@@ -11,7 +11,7 @@ openai.api_key = os.environ["OPENAI_API_KEY"]
 prediction_mode_string = "_finetuned_"
 ZERO_SHOT = True
 if ZERO_SHOT:
-    zero_shot_string = "_zero_shot_"
+    prediction_mode_string = "_zero_shot_"
 
 '''
 # if working with GDP
