@@ -1,4 +1,3 @@
-test_cleaned_gdp_growth_finetuned_predictions_1yr
 country,predicted_gdp,observed_gdp
 Albania,7.4,4.8
 Algeria,3.6,3.2
