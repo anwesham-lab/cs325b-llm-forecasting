@@ -2,6 +2,7 @@ import pandas as pd
 import csv
 import json
 import os
+import time
 import openai
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
@@ -13,7 +14,7 @@ ZERO_SHOT = True
 if ZERO_SHOT:
     prediction_mode_string = "_zero_shot_"
 
-'''
+
 # if working with GDP
 input_csv_filename = "../data/gdp/test_cleaned_gdp.csv" #'../data/gdp/cleaned_gdp_df_countries.csv'
 # output_csv_filename = " ../data/gdp/test_cleaned_gdp" + prediction_mode_string + "predictions.csv"
@@ -34,25 +35,26 @@ if prediction_horizon == 3:
     test_windows_start = 2010
     predict_after_years = 12
 elif prediction_horizon == 1:
-    test_windows_start = 2010 #2012 #2010
-    predict_after_years = 12 #10 #12
+    test_windows_start = 2012 #2012 #2010
+    predict_after_years = 10 #10 #12
 else: 
     print("bad parameters")
 
 input_csv_filename = "../data/gdp/rounded_cleaned_gdp_growth_df.csv" 
 output_csv_filename = "../data/gdp/test_cleaned_gdp_growth" + prediction_mode_string + "predictions_" + str(prediction_horizon) + "yr.csv"
 output_csv_filename = "test_cleaned_gdp_growth" + prediction_mode_string + "predictions_" + str(prediction_horizon) + "yr.csv"
-
+'''
 # system message to "prepare" the llm
 nom_prep_msg = "You are a prediction agent predicting the GDP for a country in a given year when provided an input detailing the country's GDP for the last 10 years."
 zero_shot_nom_prep_msg = "You are a prediction agent predicting the GDP for a country in a given year when provided an input detailing the country's GDP for the last 10 years. Respond using just a numeric prediction. Don't try to help me calculate this myself or give caveats, simply return a single number."
 norm_prep_msg = "You are a prediction agent predicting the GDP for a country in a given year when provided an input detailing the country's GDP for the last 10 years. The GDP has been normalized so that it is always between 0 and 10."
+zero_shot_nom_prep_msg = "You are a prediction agent predicting the GDP for a country in a future year when provided an input detailing the country's real GDP (in billions of present USD) for the last 10 years. Respond using just a numeric prediction. Don't try to help me calculate this myself or give caveats, simply return a single number."
 growth_prep_msg = "You are a prediction agent predicting the GDP growth rates for a country in a future year when provided an input detailing the country's growth rate in real GDP for the last 10 years."
 zero_shot_growth_prep_msg = "You are a prediction agent predicting the GDP growth rates for a country in a future year when provided an input detailing the country's growth rate in real GDP for the last 10 years. Respond using just a numeric prediction. Don't try to help me calculate this myself or give caveats, simply return a single number."
-prep_msg = zero_shot_growth_prep_msg
+prep_msg = zero_shot_nom_prep_msg
 
 # limit how many predictions to make
-PREDICTION_LIMIT = 2000 # if you want to just test the code, set to 5
+PREDICTION_LIMIT = 250 # if you want to just test the code, set to 5
 debug_mode = False
 
 if PREDICTION_LIMIT < 50:
@@ -95,7 +97,7 @@ def query_model_gdp(row, window_start, prep_msg, zero_shot=False):
     true_value = float(row[str(i+predict_after_years)])
     model=""
     if zero_shot:
-        model="gpt-3.5-turbo"
+        model="gpt-3.5-turbo" #"gpt-3.5-turbo-1106" #"gpt-3.5-turbo"
     else:
         model="ft:gpt-3.5-turbo-0613:personal::8Fmg2rfz"
 
@@ -144,7 +146,7 @@ def query_model_gdp_growth(row, window_start, prep_msg=growth_prep_msg, zero_sho
     country_name = row['country'] # loop through each country
     model=""
     if zero_shot:
-        model="gpt-3.5-turbo"
+        model="gpt-3.5-turbo" #"gpt-3.5-turbo-1106"#"gpt-3.5-turbo"
     else:
         if prediction_horizon == 3:
             model="ft:gpt-3.5-turbo-1106:personal::8IU7aKVL"
@@ -202,8 +204,9 @@ print("Model is being used as agent for: ", prep_msg)
 
 for row in data:
     if prediction_idx < PREDICTION_LIMIT:
-        # country_name, y_hat, y_true, input_message, task_message = query_model_gdp(row, test_windows_start, prep_msg=prep_msg, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP 
-        country_name, y_hat, y_true, input_message, task_message = query_model_gdp_growth(row, test_windows_start, prep_msg=prep_msg, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP Growth
+        country_name, y_hat, y_true, input_message, task_message = query_model_gdp(row, test_windows_start, prep_msg=prep_msg, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP 
+        # country_name, y_hat, y_true, input_message, task_message = query_model_gdp_growth(row, test_windows_start, prep_msg=prep_msg, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP Growth
+        time.sleep(1)
         if prediction_idx == 0:
            print(input_message)
            print(task_message)
