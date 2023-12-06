@@ -3,6 +3,7 @@ import csv
 import json
 import os
 import openai
+from statistics import mean
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 ###################### FILL IN THE RIGHT VALUES HERE  ######################
@@ -92,6 +93,36 @@ series_months = []
 '''
 For predicting ILI values
 '''
+def baseline_ili(row, window_start, month):
+    demographic = str.lower(row['Demographic']) # loop through each country
+    if demographic == 'ilitotal':
+        demographic = 'all ages'
+
+    month_dict = {
+        1:'January',
+        2:'February',
+        3:'March',
+        4:'April',
+        5:'May',
+        6:'June',
+        7:'July',
+        8:'August',
+        9:'September',
+        10:'October',
+        11:'November',
+        12:'December'		
+    }
+    
+    # Create sliding window prompts
+    i = window_start
+    j = month
+
+    average_val = mean([float(row[str(i+x) + '-' + str(j)]) for x in range (0, 10)])
+    last_val = float(row[str(i+9) + '-' + str(j)])
+    true_value = float(row[str(i+10)+ '-' + str(j)])
+    
+    return demographic, month, average_val, last_val, true_value
+
 def query_model_ili(row, window_start, month, prep_msg, zero_shot=False):
     demographic = str.lower(row['Demographic']) # loop through each country
     if demographic == 'ilitotal':
@@ -291,48 +322,70 @@ print("Making predictions on dataset ", input_csv_filename)
 print("Writing results to ", output_csv_filename)
 print("Model is being used as agent for: ", prep_msg)
 
-if not ili:
-    for row in data:
+# if not ili:
+#     for row in data:
+#         if prediction_idx < PREDICTION_LIMIT:
+#             # country_name, y_hat, y_true, input_message, task_message = query_model_gdp(row, test_windows_start, prep_msg=prep_msg, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP 
+#             country_name, y_hat, y_true, input_message, task_message = query_model_gdp_growth(row, test_windows_start, prep_msg=prep_msg, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP Growth
+#             if prediction_idx == 0:
+#                 print(input_message)
+#                 print(task_message)
+#                 print("First year for which data is being prompted in is ", test_windows_start)
+#                 print("Zero shot", ZERO_SHOT)
+#             countries.append(country_name)
+#             true_values.append(y_true)
+#             finetuned_predictions.append(y_hat)
+#         prediction_idx = prediction_idx + 1
+#     # store results in a dataframe and write to disk
+#     results_df = pd.DataFrame()
+#     results_df['country'] = countries
+#     results_df['predicted_gdp'] = finetuned_predictions
+#     results_df['observed_gdp'] = true_values
+#     results_df.to_csv(output_csv_filename, index=False)
+
+# else:
+#     for row in data:
+#         for month in range(1, 11):
+#             if prediction_idx < PREDICTION_LIMIT:
+#                 # country_name, y_hat, y_true, input_message, task_message = query_model_gdp(row, test_windows_start, prep_msg=prep_msg, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP 
+#                 demographic, month, y_hat, y_true, input_message, task_message = query_model_ili(row, test_windows_start, month, prep_msg=prep_msg, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP Growth
+#                 if prediction_idx == 0:
+#                     print(input_message)
+#                     print(task_message)
+#                     print("First year for which data is being prompted in is ", test_windows_start)
+#                     print("Zero shot", ZERO_SHOT)
+#                 demographics.append(demographic)
+#                 series_months.append(month)
+#                 true_values.append(y_true)
+#                 finetuned_predictions.append(y_hat)
+#             prediction_idx = prediction_idx + 1
+#     # store results in a dataframe and write to disk
+#     results_df = pd.DataFrame()
+#     results_df['demographic'] = demographics
+#     results_df['month'] = series_months
+#     results_df['predicted_ili'] = finetuned_predictions
+#     results_df['observed_ili'] = true_values
+#     results_df.to_csv(output_csv_filename, index=False)
+
+avgs = []
+nexts = []
+
+for row in data:
+    for month in range(1, 11):
         if prediction_idx < PREDICTION_LIMIT:
             # country_name, y_hat, y_true, input_message, task_message = query_model_gdp(row, test_windows_start, prep_msg=prep_msg, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP 
-            country_name, y_hat, y_true, input_message, task_message = query_model_gdp_growth(row, test_windows_start, prep_msg=prep_msg, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP Growth
-            if prediction_idx == 0:
-                print(input_message)
-                print(task_message)
-                print("First year for which data is being prompted in is ", test_windows_start)
-                print("Zero shot", ZERO_SHOT)
-            countries.append(country_name)
+            demographic, month, average_val, last_val, y_true = baseline_ili(row, test_windows_start, month) # Extract relevant data for that country and start year combination - GDP Growth
+            demographics.append(demographic)
+            series_months.append(month)
+            avgs.append(average_val)
+            nexts.append(last_val)
             true_values.append(y_true)
-            finetuned_predictions.append(y_hat)
         prediction_idx = prediction_idx + 1
-    # store results in a dataframe and write to disk
-    results_df = pd.DataFrame()
-    results_df['country'] = countries
-    results_df['predicted_gdp'] = finetuned_predictions
-    results_df['observed_gdp'] = true_values
-    results_df.to_csv(output_csv_filename, index=False)
-
-else:
-    for row in data:
-        for month in range(1, 11):
-            if prediction_idx < PREDICTION_LIMIT:
-                # country_name, y_hat, y_true, input_message, task_message = query_model_gdp(row, test_windows_start, prep_msg=prep_msg, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP 
-                demographic, month, y_hat, y_true, input_message, task_message = query_model_ili(row, test_windows_start, month, prep_msg=prep_msg, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP Growth
-                if prediction_idx == 0:
-                    print(input_message)
-                    print(task_message)
-                    print("First year for which data is being prompted in is ", test_windows_start)
-                    print("Zero shot", ZERO_SHOT)
-                demographics.append(demographic)
-                series_months.append(month)
-                true_values.append(y_true)
-                finetuned_predictions.append(y_hat)
-            prediction_idx = prediction_idx + 1
-    # store results in a dataframe and write to disk
-    results_df = pd.DataFrame()
-    results_df['demographic'] = demographics
-    results_df['month'] = series_months
-    results_df['predicted_ili'] = finetuned_predictions
-    results_df['observed_ili'] = true_values
-    results_df.to_csv(output_csv_filename, index=False)
-
+# store results in a dataframe and write to disk
+results_df = pd.DataFrame()
+results_df['demographic'] = demographics
+results_df['month'] = series_months
+results_df['averaged_ili'] = avgs
+results_df['last_ili'] = nexts
+results_df['observed_ili'] = true_values
+results_df.to_csv('../data/ILI/test_ili_baselines.csv', index=False)
