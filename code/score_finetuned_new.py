@@ -10,7 +10,7 @@ openai.api_key = os.environ["OPENAI_API_KEY"]
 
 # input file - SPECIFY
 prediction_mode_string = "_finetuned_"
-ZERO_SHOT = False
+ZERO_SHOT = True
 if ZERO_SHOT:
     prediction_mode_string = "_zero_shot_"
 
@@ -26,13 +26,15 @@ predict_after_years = 10
 
 
 '''
-# if working with ILI finetuned
-ili = True #False
+# which dataset
+ili = False 
+lst = True
+lst_growth = False
+gdp = False
 prediction_horizon = 1
-if ili:
+if ili or lst or lst_growth:
     test_windows_start = 2012
     predict_after_years = 10
-
 # if working with GDP growth
 else:
 # Train / test splits
@@ -55,9 +57,27 @@ if ili:
         prep_msg = zero_shot_prep_msg
     else:
         prep_msg = ft_prep_msg
+elif lst: 
+    input_csv_filename = '../data/CRU/lst_by_country.csv'
+    output_csv_filename = "../data/CRU/test_cleaned_LST" + prediction_mode_string + "predictions.csv"
+    zero_shot_prep_msg = "You are a prediction agent predicting the average land surface temperature for a country in a given year when provided an input detailing the country's average land surface temperature for the last 10 years Respond using just a numeric prediction. Don't try to help me calculate this myself or give caveats, simply return a single number."
+    ft_prep_msg = "You are a prediction agent predicting the average land surface temperature for a country in a given year when provided an input detailing the country's average land surface temperature for the last 10 years."
+    if ZERO_SHOT:
+        prep_msg = zero_shot_prep_msg
+    else:
+        prep_msg = ft_prep_msg
+elif lst_growth:
+    input_csv_filename = '../data/CRU/lst_growth_by_country.csv'
+    output_csv_filename = "../data/CRU/test_cleaned_LST_growth" + prediction_mode_string + "predictions.csv"
+    zero_shot_prep_msg = "You are a prediction agent predicting the average land surface temperature growth rate for a country in a given year when provided an input detailing the country's average land surface temperature growth rate for the last 10 years. Respond using just a numeric prediction. Don't try to help me calculate this myself or give caveats, simply return a single number."
+    ft_prep_msg = "You are a prediction agent predicting the average land surface temperature growth rate for a country in a given year when provided an input detailing the country's average land surface temperature growth rate for the last 10 years."
+    if ZERO_SHOT:
+        prep_msg = zero_shot_prep_msg
+    else:
+        prep_msg = ft_prep_msg
 else:
     input_csv_filename = "../data/gdp/rounded_cleaned_gdp_growth_df.csv" 
-    output_csv_filename = "../data/gdp/test_cleaned_gdp_growth" + prediction_mode_string + "predictions_" + str(prediction_horizon) + "yr.csv"
+    # output_csv_filename = "../data/gdp/test_cleaned_gdp_growth" + prediction_mode_string + "predictions_" + str(prediction_horizon) + "yr.csv"
     output_csv_filename = "test_cleaned_gdp_growth" + prediction_mode_string + "predictions_" + str(prediction_horizon) + "yr.csv"
     # system message to "prepare" the llm
     nom_prep_msg = "You are a prediction agent predicting the GDP for a country in a given year when provided an input detailing the country's GDP for the last 10 years."
@@ -89,6 +109,134 @@ true_values = []
 countries = []
 demographics = []
 series_months = []
+
+'''
+For predicting lst values directly
+'''
+
+def query_model_lst(row, window_start, system_message, zero_shot=False):
+    country_name = row['Country'] # loop through each country
+    
+    # Create sliding window prompts
+    i = window_start
+    prediction_year = i + predict_after_years
+
+    # # regular GDP prompts
+    input_message = f"The country of interest is: {country_name} and average land surface temperature in degrees Celsius is {i}: {str(round(float(row[str(i)]), 2))}, {i+1}: {str(round(float(row[str(i+1)]), 2))}, {i+2}: {str(round(float(row[str(i+2)]), 2))}, {i+3}: {str(round(float(row[str(i+3)]), 2))}, {i+4}: {str(round(float(row[str(i+4)]), 2))}, {i+5}: {str(round(float(row[str(i+5)]), 2))}, {i+6}: {str(round(float(row[str(i+6)]), 2))}, {i+7}: {str(round(float(row[str(i+7)]), 2))}, {i+8}: {str(round(float(row[str(i+8)]), 2))}, {i+9}: {str(round(float(row[str(i+9)]), 2))}"
+    task_message = f". Predict the average land surface temperature (in degrees Celsius) for {country_name} in {prediction_year}: "
+
+    # what the LLM should return
+    true_value = round(float(row[str(i+predict_after_years)]), 2)
+    model=""
+    if zero_shot:
+        model="gpt-3.5-turbo"
+    else:
+        model="ft:gpt-3.5-turbo-1106:personal::8TH95DmF"
+
+    # messages to user about what exactly is happening
+    if debug_mode:
+        print(input_message)
+        print(task_message)
+        print("Model being used for predictions is ", model)
+        print("Predictions are being made for year ", prediction_year)
+        print("First year for which data is being prompted in is ", window_start)
+        
+    # query the model
+    completion = openai.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": input_message + task_message}
+            ]
+    )
+    
+    finetuned_prediction_dict = dict()
+    finetuned_prediction_dict = completion.choices[0].message
+
+    # convert returned message to a float with some error handling 
+    try:
+        float_value_out = round(float(finetuned_prediction_dict.content), 2)
+    except ValueError:
+        print(f"Error: Invalid value encountered. Could not convert '{finetuned_prediction_dict.content}' to a float.")
+        float_value_out = None  
+    finetuned_prediction = float_value_out
+
+    # preview results
+    print(country_name, finetuned_prediction, true_value)
+
+    return country_name, finetuned_prediction, true_value, input_message, task_message
+
+'''
+For predicting lst growth values
+'''
+
+def query_model_lst_growth(row, window_start, system_message, zero_shot=False):
+    country_name = row['Country'] # loop through each country
+    
+    # Create sliding window prompts
+    i = window_start
+    prediction_year = i + predict_after_years
+
+    # # regular GDP prompts
+    input_message = f"The country of interest is: {country_name} and average land surface temperature growth rate in degrees Celsius is {i}: {str(round(float(row[str(i)]), 2))}, {i+1}: {str(round(float(row[str(i+1)]), 2))}, {i+2}: {str(round(float(row[str(i+2)]), 2))}, {i+3}: {str(round(float(row[str(i+3)]), 2))}, {i+4}: {str(round(float(row[str(i+4)]), 2))}, {i+5}: {str(round(float(row[str(i+5)]), 2))}, {i+6}: {str(round(float(row[str(i+6)]), 2))}, {i+7}: {str(round(float(row[str(i+7)]), 2))}, {i+8}: {str(round(float(row[str(i+8)]), 2))}, {i+9}: {str(round(float(row[str(i+9)]), 2))}"
+    task_message = f". Predict the average land surface temperature growth rate (in degrees Celsius) for {country_name} in {prediction_year}: "
+
+    # what the LLM should return
+    true_value = round(float(row[str(i+predict_after_years)]), 2)
+    model=""
+    if zero_shot:
+        model="gpt-3.5-turbo"
+    else:
+        model="ft:gpt-3.5-turbo-1106:personal::8THB4QvA"
+
+    # messages to user about what exactly is happening
+    if debug_mode:
+        print(input_message)
+        print(task_message)
+        print("Model being used for predictions is ", model)
+        print("Predictions are being made for year ", prediction_year)
+        print("First year for which data is being prompted in is ", window_start)
+        
+    # query the model
+    completion = openai.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": input_message + task_message}
+            ]
+    )
+    
+    finetuned_prediction_dict = dict()
+    finetuned_prediction_dict = completion.choices[0].message
+
+    # convert returned message to a float with some error handling 
+    try:
+        float_value_out = round(float(finetuned_prediction_dict.content), 2)
+    except ValueError:
+        print(f"Error: Invalid value encountered. Could not convert '{finetuned_prediction_dict.content}' to a float.")
+        float_value_out = None  
+    finetuned_prediction = float_value_out
+
+    # preview results
+    print(country_name, finetuned_prediction, true_value)
+
+    return country_name, finetuned_prediction, true_value, input_message, task_message
+
+'''
+For predicting LST values
+'''
+def baseline_lst(row, window_start):
+    country_name = row['Country'] # loop through each country
+
+    # Create sliding window prompts
+    i = window_start
+    pred = 10
+
+    average_val = round(mean([float(row[str(i+x)]) for x in range (0, pred)]), 2)
+    last_val = round(float(row[str(i+pred-1)]), 2)
+    true_value = round(float(row[str(i+pred)]), 2)
+    
+    return country_name, average_val, last_val, true_value
 
 '''
 For predicting ILI values
@@ -322,7 +470,7 @@ print("Making predictions on dataset ", input_csv_filename)
 print("Writing results to ", output_csv_filename)
 print("Model is being used as agent for: ", prep_msg)
 
-# if not ili:
+# if gdp:
 #     for row in data:
 #         if prediction_idx < PREDICTION_LIMIT:
 #             # country_name, y_hat, y_true, input_message, task_message = query_model_gdp(row, test_windows_start, prep_msg=prep_msg, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP 
@@ -341,6 +489,46 @@ print("Model is being used as agent for: ", prep_msg)
 #     results_df['country'] = countries
 #     results_df['predicted_gdp'] = finetuned_predictions
 #     results_df['observed_gdp'] = true_values
+#     results_df.to_csv(output_csv_filename, index=False)
+
+# elif lst:
+#     for row in data:
+#         if prediction_idx < PREDICTION_LIMIT:
+#             country_name, y_hat, y_true, input_message, task_message = query_model_lst(row, test_windows_start, system_message=system_message, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP Growth
+#             if prediction_idx == 0:
+#                 print(input_message)
+#                 print(task_message)
+#                 print("First year for which data is being prompted in is ", test_windows_start)
+#                 print("Zero shot", ZERO_SHOT)
+#             countries.append(country_name)
+#             true_values.append(y_true)
+#             finetuned_predictions.append(y_hat)
+#         prediction_idx = prediction_idx + 1
+#     # store results in a dataframe and write to disk
+#     results_df = pd.DataFrame()
+#     results_df['country'] = countries
+#     results_df['predicted_lst'] = finetuned_predictions
+#     results_df['observed_lst'] = true_values
+#     results_df.to_csv(output_csv_filename, index=False)
+
+# elif lst_growth:
+#     for row in data:
+#         if prediction_idx < PREDICTION_LIMIT:
+#             country_name, y_hat, y_true, input_message, task_message = query_model_lst_growth(row, test_windows_start, system_message=system_message, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP Growth
+#             if prediction_idx == 0:
+#                 print(input_message)
+#                 print(task_message)
+#                 print("First year for which data is being prompted in is ", test_windows_start)
+#                 print("Zero shot", ZERO_SHOT)
+#             countries.append(country_name)
+#             true_values.append(y_true)
+#             finetuned_predictions.append(y_hat)
+#         prediction_idx = prediction_idx + 1
+#     # store results in a dataframe and write to disk
+#     results_df = pd.DataFrame()
+#     results_df['country'] = countries
+#     results_df['predicted_lst_growth'] = finetuned_predictions
+#     results_df['observed_lst_growth'] = true_values
 #     results_df.to_csv(output_csv_filename, index=False)
 
 # else:
@@ -371,21 +559,33 @@ avgs = []
 nexts = []
 
 for row in data:
-    for month in range(1, 11):
-        if prediction_idx < PREDICTION_LIMIT:
-            # country_name, y_hat, y_true, input_message, task_message = query_model_gdp(row, test_windows_start, prep_msg=prep_msg, zero_shot=ZERO_SHOT) # Extract relevant data for that country and start year combination - GDP 
-            demographic, month, average_val, last_val, y_true = baseline_ili(row, test_windows_start, month) # Extract relevant data for that country and start year combination - GDP Growth
-            demographics.append(demographic)
-            series_months.append(month)
-            avgs.append(average_val)
-            nexts.append(last_val)
-            true_values.append(y_true)
-        prediction_idx = prediction_idx + 1
+    # for month in range(1, 11):
+    #     if prediction_idx < PREDICTION_LIMIT:
+    #         country_name, average_val, last_val, y_true = baseline_lst(row, test_windows_start) # Extract relevant data for that country and start year combination - GDP 
+    #         # demographic, month, average_val, last_val, y_true = baseline_ili(row, test_windows_start, month) # Extract relevant data for that country and start year combination - GDP Growth
+    #         # demographics.append(demographic)
+    #         # series_months.append(month)
+    #         countries.append(country_name)
+    #         avgs.append(average_val)
+    #         nexts.append(last_val)
+    #         true_values.append(y_true)
+    #     prediction_idx = prediction_idx + 1
+    if prediction_idx < PREDICTION_LIMIT:
+        country_name, average_val, last_val, y_true = baseline_lst(row, test_windows_start) # Extract relevant data for that country and start year combination - GDP 
+        # demographic, month, average_val, last_val, y_true = baseline_ili(row, test_windows_start, month) # Extract relevant data for that country and start year combination - GDP Growth
+        # demographics.append(demographic)
+        # series_months.append(month)
+        countries.append(country_name)
+        avgs.append(average_val)
+        nexts.append(last_val)
+        true_values.append(y_true)
+    prediction_idx = prediction_idx + 1
 # store results in a dataframe and write to disk
 results_df = pd.DataFrame()
-results_df['demographic'] = demographics
-results_df['month'] = series_months
-results_df['averaged_ili'] = avgs
-results_df['last_ili'] = nexts
-results_df['observed_ili'] = true_values
-results_df.to_csv('../data/ILI/test_ili_baselines.csv', index=False)
+results_df['country'] = countries
+# results_df['demographic'] = demographics
+# results_df['month'] = series_months
+results_df['averaged'] = avgs
+results_df['previous'] = nexts
+results_df['observed'] = true_values
+results_df.to_csv('../data/CRU/test_lst_baselines.csv', index=False)

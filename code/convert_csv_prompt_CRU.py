@@ -4,8 +4,8 @@ import json
 ###################### FILL IN THE RIGHT VALUES HERE  ######################
 
 # output files - SPECIFY
-train_json_filename = "../data/CRU/train_lst.jsonl"
-test_json_filename = "../data/CRU/test_lst.jsonl" 
+train_json_filename = "../data/CRU/rtrain_lst.jsonl"
+test_json_filename = "../data/CRU/rtest_lst.jsonl" 
 
 # input file - SPECIFY
 input_csv_filename = '../data/CRU/lst_by_country.csv' 
@@ -45,11 +45,11 @@ def generate_message(row, window_start):
     prediction_year = i + predict_after_years
 
     # # regular GDP prompts
-    input_message = f"The country of interest is: {country_name} and average land surface temperature in degrees Celsius is {i}: {row[str(i)]}, {i+1}: {row[str(i+1)]}, {i+2}: {row[str(i+2)]}, {i+3}: {row[str(i+3)]}, {i+4}: {row[str(i+4)]}, {i+5}: {row[str(i+5)]}, {i+6}: {row[str(i+6)]}, {i+7}: {row[str(i+7)]}, {i+8}: {row[str(i+8)]}, {i+9}: {row[str(i+9)]}"
+    input_message = f"The country of interest is: {country_name} and average land surface temperature in degrees Celsius is {i}: {str(round(float(row[str(i)]), 2))}, {i+1}: {str(round(float(row[str(i+1)]), 2))}, {i+2}: {str(round(float(row[str(i+2)]), 2))}, {i+3}: {str(round(float(row[str(i+3)]), 2))}, {i+4}: {str(round(float(row[str(i+4)]), 2))}, {i+5}: {str(round(float(row[str(i+5)]), 2))}, {i+6}: {str(round(float(row[str(i+6)]), 2))}, {i+7}: {str(round(float(row[str(i+7)]), 2))}, {i+8}: {str(round(float(row[str(i+8)]), 2))}, {i+9}: {str(round(float(row[str(i+9)]), 2))}"
     task_message = f". Predict the average land surface temperature (in degrees Celsius) for {country_name} in {prediction_year}: "
 
     # what the LLM should return
-    prediction_amount = row[str(i+predict_after_years)]
+    prediction_amount = str(round(float(row[str(i+predict_after_years)]), 2))
     agent_message = f"{prediction_amount}"
 
     # Append the input and agent messages to the prompts list
