@@ -151,13 +151,13 @@ def query_model_lst(row, window_start, system_message, zero_shot=False):
     )
     
     finetuned_prediction_dict = dict()
-    finetuned_prediction_dict = completion.choices[0].message
+    finetuned_prediction_dict = dict(completion.choices[0].message)
 
     # convert returned message to a float with some error handling 
     try:
-        float_value_out = round(float(finetuned_prediction_dict.content), 2)
+        float_value_out = round(float(finetuned_prediction_dict['content']), 2)
     except ValueError:
-        print(f"Error: Invalid value encountered. Could not convert '{finetuned_prediction_dict.content}' to a float.")
+        print(f"Error: Invalid value encountered. Could not convert '{finetuned_prediction_dict['content']}' to a float.")
         float_value_out = None  
     finetuned_prediction = float_value_out
 
@@ -207,13 +207,13 @@ def query_model_lst_growth(row, window_start, system_message, zero_shot=False):
     )
     
     finetuned_prediction_dict = dict()
-    finetuned_prediction_dict = completion.choices[0].message
+    finetuned_prediction_dict = dict(completion.choices[0].message)
 
     # convert returned message to a float with some error handling 
     try:
-        float_value_out = round(float(finetuned_prediction_dict.content), 2)
+        float_value_out = round(float(finetuned_prediction_dict['content']), 2)
     except ValueError:
-        print(f"Error: Invalid value encountered. Could not convert '{finetuned_prediction_dict.content}' to a float.")
+        print(f"Error: Invalid value encountered. Could not convert '{finetuned_prediction_dict['content']}' to a float.")
         float_value_out = None  
     finetuned_prediction = float_value_out
 

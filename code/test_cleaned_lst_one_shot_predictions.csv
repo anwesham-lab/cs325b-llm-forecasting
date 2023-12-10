@@ -1,0 +1,89 @@
+country,predicted_lst,observed_lst
+Afghanistan,18.63,18.38
+Algeria,21.98,21.98
+Angola,27.54,27.53
+Australia,17.61,17.31
+Azerbaijan,4.06,3.69
+Bangladesh,25.87,25.53
+Belarus,1.35,1.41
+Belgium,5.28,4.65
+Bhutan,16.79,16.58
+Botswana,24.65,24.6
+Bouvet Island,12.89,13.09
+Brunei Darussalam,26.02,25.74
+Cambodia,26.51,26.02
+Central African Republic,27.5,27.5
+Chad,22.37,21.96
+China,14.4,14.24
+Christmas Island,17.47,17.23
+Cocos (Keeling) Islands,16.92,16.38
+Comoros,26.86,26.3
+"Congo, the Democratic Republic of the",27.5,27.5
+Czech Republic,4.55,4.53
+Denmark,4.45,4.11
+Estonia,-0.55,0.44
+Faroe Islands,-8.11,-8.88
+Fiji,20.17,19.88
+Finland,-5.42,-6.43
+Gabon,28.79,28.66
+Georgia,0.6,0.31
+Germany,5.02,4.39
+Heard Island and McDonald Islands,6.75,6.48
+Hong Kong,26.4,26.27
+India,21.42,21.63
+Indonesia,27.1,27.04
+Japan,-13.84,-13.77
+Kazakhstan,-4.95,-5.3
+Kiribati,24.91,24.72
+"Korea, Democratic People's Republic of",-16.58,-16.66
+"Korea, Republic of",17.33,17.33
+Kyrgyzstan,7.15,7.01
+Lao People's Democratic Republic,26.07,25.97
+Latvia,4.54,3.54
+Libyan Arab Jamahiriya,23.94,24.0
+Lithuania,2.38,2.68
+Macao,26.25,26.02
+Madagascar,24.35,24.11
+Malawi,27.59,26.97
+Malaysia,27.01,26.63
+Marshall Islands,28.5,28.11
+Mauritius,20.55,20.25
+"Micronesia, Federated States of",24.15,24.04
+Mongolia,2.98,3.03
+Mozambique,25.87,25.63
+Myanmar,25.17,25.14
+Namibia,25.28,25.21
+Nepal,19.16,19.28
+Netherlands,5.23,4.5
+New Caledonia,24.51,24.5
+New Zealand,14.79,14.88
+Niger,26.24,26.24
+Northern Mariana Islands,22.44,22.5
+Norway,-5.3,-5.56
+Pakistan,19.82,19.37
+Palau,27.1,26.85
+Papua New Guinea,26.28,25.94
+Philippines,26.9,26.7
+Poland,4.54,4.29
+Russian Federation,-13.94,-14.34
+"Saint Helena, Ascension and Tristan da Cunha",25.89,25.8
+Sao Tome and Principe,27.98,27.97
+Singapore,23.95,23.31
+Solomon Islands,26.1,26.21
+Sri Lanka,25.28,24.98
+Sudan,23.6,23.57
+Svalbard and Jan Mayen,-8.45,-8.86
+Swaziland,23.28,23.15
+Sweden,-2.15,-2.74
+Tajikistan,8.17,7.66
+"Tanzania, United Republic of",27.11,26.6
+Thailand,25.68,25.57
+Timor-Leste,26.56,26.27
+Turkmenistan,9.57,9.58
+Tuvalu,15.21,15.12
+Ukraine,-0.58,-1.02
+United States Minor Outlying Islands,5.74,6.1
+Uzbekistan,8.97,8.32
+Viet Nam,25.26,24.99
+Zambia,27.51,27.12
+Zimbabwe,23.88,23.74
