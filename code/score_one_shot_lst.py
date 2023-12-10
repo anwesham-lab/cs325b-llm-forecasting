@@ -50,11 +50,11 @@ predict_after_years = 10 #10 #12
 
 if data_mode == "value":
     input_csv_filename = "../data/CRU/lst_by_country.csv" 
-    output_csv_filename = "test_cleaned_lst" + prediction_mode_string + "predictions.csv"
+    output_csv_filename = "../data/CRU/test_cleaned_lst" + prediction_mode_string + "predictions.csv"
     prep_msg = val_prep_msg
 else:
     input_csv_filename = "../data/CRU/lst_growth_by_country.csv" 
-    output_csv_filename = "test_cleaned_lst_growth" + prediction_mode_string + "predictions.csv"
+    output_csv_filename = "../data/CRU/test_cleaned_lst_growth" + prediction_mode_string + "predictions.csv"
     prep_msg = growth_prep_msg
 
 

@@ -1,0 +1,89 @@
+country,predicted_lst_growth,observed_lst_growth
+Afghanistan,-0.19,-0.18
+Algeria,0.0,0.0
+Angola,0.08,-0.01
+Australia,0.07,-0.33
+Azerbaijan,-0.28,0.09
+Bangladesh,0.18,-0.3
+Belarus,0.05,1.4
+Belgium,0.2,-0.44
+Bhutan,0.38,-0.21
+Botswana,0.01,-0.12
+Bouvet Island,-0.03,0.07
+Brunei Darussalam,0.23,-0.03
+Cambodia,-0.18,-0.29
+Central African Republic,0.0,0.0
+Chad,-0.16,0.13
+China,0.26,-0.36
+Christmas Island,0.01,-0.16
+Cocos (Keeling) Islands,0.02,-0.46
+Comoros,0.03,-0.36
+"Congo, the Democratic Republic of the",0.0,0.0
+Czech Republic,-0.65,0.29
+Denmark,-0.43,0.19
+Estonia,0.4,1.52
+Faroe Islands,0.19,1.94
+Fiji,-0.42,0.28
+Finland,-0.74,1.05
+Gabon,0.0,-0.03
+Georgia,0.52,0.63
+Germany,0.95,-0.15
+Heard Island and McDonald Islands,0.12,-0.79
+Hong Kong,-0.092,-0.17
+India,0.36,-0.1
+Indonesia,-0.12,0.07
+Japan,0.57,-1.07
+Kazakhstan,-0.19,-0.02
+Kiribati,0.13,-0.41
+"Korea, Democratic People's Republic of",-0.36,-1.2
+"Korea, Republic of",0.0,0.0
+Kyrgyzstan,0.86,-1.35
+Lao People's Democratic Republic,0.33,-0.03
+Latvia,-0.28,1.49
+Libyan Arab Jamahiriya,-0.66,0.1
+Lithuania,0.07,1.18
+Macao,0.1,-0.23
+Madagascar,-0.17,-0.35
+Malawi,0.47,-0.45
+Malaysia,-0.12,-0.12
+Marshall Islands,0.27,-0.66
+Mauritius,-0.12,0.13
+"Micronesia, Federated States of",0.17,-0.18
+Mongolia,0.11,-1.1
+Mozambique,0.03,-0.31
+Myanmar,-0.22,0.16
+Namibia,0.01,-0.02
+Nepal,-0.11,0.15
+Netherlands,0.33,-0.47
+New Caledonia,0.0,0.0
+New Zealand,0.13,0.3
+Niger,0.0,0.0
+Northern Mariana Islands,0.13,0.0
+Norway,-0.54,1.87
+Pakistan,0.1,-0.24
+Palau,0.04,-0.07
+Papua New Guinea,0.25,0.05
+Philippines,0.01,-0.12
+Poland,0.9,0.79
+Russian Federation,-0.23,-0.59
+"Saint Helena, Ascension and Tristan da Cunha",-0.07,-0.02
+Sao Tome and Principe,0.01,0.01
+Singapore,-0.21,-0.3
+Solomon Islands,-0.04,0.16
+Sri Lanka,-0.11,-0.17
+Sudan,0.02,0.14
+Svalbard and Jan Mayen,-0.66,1.23
+Swaziland,0.14,-0.27
+Sweden,-0.72,1.39
+Tajikistan,0.15,-0.67
+"Tanzania, United Republic of",0.31,-0.37
+Thailand,0.06,-0.28
+Timor-Leste,-0.05,-0.05
+Turkmenistan,-0.29,-0.25
+Tuvalu,0.16,0.01
+Ukraine,-0.35,1.09
+United States Minor Outlying Islands,0.29,0.65
+Uzbekistan,0.25,-0.89
+Viet Nam,0.02,-0.19
+Zambia,0.07,-0.41
+Zimbabwe,0.09,-0.39
