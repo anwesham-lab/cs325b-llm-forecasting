@@ -1,0 +1,22 @@
+The code environment assumes running on python 3.8 or higher and the environment is configured
+with Python 3.10. 
+
+We highly recommend installing Anaconda or Miniconda and configuring the code within a Conda 
+environment to run all experiments most effectively and efficiently without having to install 
+any packages native to the machine. 
+
+The user guide for conda installation can be found here: 
+https://conda.io/projects/conda/en/latest/user-guide/install/index.html
+
+Download the most updated stable release of conda for your OS (we assume some form of Unix or Linux
+base - ie a Linux or MacOS native machine) for best use. 
+
+Then, once conda is configured, you should run the following command to configure an environment
+based on the provided `environment.yml` file in the base directory:
+`conda env create -f environment.yml`
+
+To check that the environment was made, you should see an environment titled `cs325` if you run
+`conda env list`. 
+
+To activate the conda environment, run:
+`conda activate cs325`
