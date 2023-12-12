@@ -8,4 +8,4 @@ Rather than a `requirements.txt` file, we use a `environment.yml` file and recom
 Conda for python3. 
 
 ## Instructions:
-Run the main.sh file as explained in `run_instructions.txt`
+Run the shell scripts as explained in `run_instructions.txt`. We need multiple scripts instead of just one main.sh because of our dependence on OpenAI's server (e.g. waiting on finetuning response).
