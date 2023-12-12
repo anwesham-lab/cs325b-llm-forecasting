@@ -2,7 +2,11 @@ In the following, we explain how to finetune an OpenAI model on the annual growt
 
 First, run the upload_as_jsonl.sh script. A response will be printed containing the file id, which you pass as an additional command line argument to the next script.
 
+Wait until the file has been created.
+
 Then, run the finetune.sh. Similarly, a response will be printed containing the model id, which you pass to the next script.
+
+Wait until the finetuning job has finished. You will receive an email when this happens.
 
 Finally, run the evaluate.sh script.
 
