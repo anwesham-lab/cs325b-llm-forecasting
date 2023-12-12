@@ -11,13 +11,18 @@ subdirectories with an `xgboost` prefix.
 Code necessary for the explicit pipeline are: `gen_jsonl.py`, `upload.py`, `train.py`,
 `inference.py` and `evaluate.py`. 
 
-To execute a complete training pipeline, you can simply execute `main.sh` or
+First, all necessary data must be uploaded to your openAI account to use with
+the API. Therefore, you should run `upload_as_jsonl.sh` to convert your desired
+CSV to prompt form and upload to the openAI interface. 
+
+To execute a complete training pipeline, you can simply execute `finetune.sh` or
 each of the individual scripts from the `code` directory that are listed in 
-`main.sh`.
+`finetune.sh`.
 
 However, to evaluate, the `inference.py` and `evaluate.py` files must be run
 separately as they wait on the OpenAI API server's completion of fine-tuning as
-a job and the return fo the fine-tuned model name as a key for use. 
+a job and the return fo the fine-tuned model name as a key for use. This can be 
+done using `evaluate.sh`
 
 All primary code ranging from data handling and preprocessing, to prompt creation, 
 to inference, to evaluation, to general exploration are hosted inside of the `code`
