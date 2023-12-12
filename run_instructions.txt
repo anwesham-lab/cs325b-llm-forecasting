@@ -1,0 +1,9 @@
+In the following, we explain how to finetune an OpenAI model on the annual growth of a time series provided the csv. Note that you will need credits from OpenAI to perform finetuning as well as a secret api key.
+
+First, run the upload_as_jsonl.sh script. A response will be printed containing the file id, which you pass as an additional command line argument to the next script.
+
+Then, run the finetune.sh. Similarly, a response will be printed containing the model id, which you pass to the next script.
+
+Finally, run the evaluate.sh script.
+
+That said, before running the scripts, you must modify the three files above, and for each, you must pass in the specified command line arguments for the following python scripts gen_jsonl.py, upload.py, train.py, inference.py, evaluate.py.
