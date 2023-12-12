@@ -2,15 +2,22 @@ The directory is divided into some parts. All csv files and jsonl files are cate
 and divided within the `data` subdirectory under corresponding name targets:
 - CRU's LST data: `data/CRU`
 - CDC's ILI data: `data/ILI`
-- IMF's GDP data: `data/`
+- IMF's GDP data: `data/GDP`
 - Zillow Housing data: `data/housing`
 
-All code is hosted within the code subdirectory. Some sample baselines are in
+All code work is hosted within the code subdirectory. Some sample baselines are in
 subdirectories with an `xgboost` prefix. 
+
+Code necessary for the explicit pipeline are: `gen_jsonl.py`, `upload.py`, `train.py`,
+`inference.py` and `evaluate.py`. 
 
 To execute a complete training pipeline, you can simply execute `main.sh` or
 each of the individual scripts from the `code` directory that are listed in 
 `main.sh`.
+
+However, to evaluate, the `inference.py` and `evaluate.py` files must be run
+separately as they wait on the OpenAI API server's completion of fine-tuning as
+a job and the return fo the fine-tuned model name as a key for use. 
 
 All primary code ranging from data handling and preprocessing, to prompt creation, 
 to inference, to evaluation, to general exploration are hosted inside of the `code`
